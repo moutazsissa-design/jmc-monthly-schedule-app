@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JMC Monthly Schedule & Leave Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>JMC Monthly Schedule</h1>
+        <p>Duty roster, annual leave, sick leave & compensation leave calculator</p>
+      </div>
+      <div class="user-pill">
+        <span class="dot"></span>
+        <div>
+          <strong>Moutaz</strong>
+          <small>Admin</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="controls card">
+      <div>
+        <label for="monthPicker">Schedule Month</label>
+        <input id="monthPicker" type="month" />
+      </div>
+      <div>
+        <label for="employeeFilter">Employee</label>
+        <select id="employeeFilter">
+          <option value="all">All team</option>
+        </select>
+      </div>
+      <div class="button-row">
+        <button id="generateBtn">Generate Month</button>
+        <button id="saveBtn" class="secondary">Save</button>
+        <button id="exportJsonBtn" class="secondary">Export JSON</button>
+        <button id="printBtn" class="secondary">Print / PDF</button>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <div class="summary-card blue">
+        <span>Employees</span>
+        <strong id="employeeCount">5</strong>
+      </div>
+      <div class="summary-card orange">
+        <span>Weekly Off Days</span>
+        <strong id="weeklyOffCount">0</strong>
+      </div>
+      <div class="summary-card purple">
+        <span>Public Holidays</span>
+        <strong id="holidayCount">0</strong>
+      </div>
+      <div class="summary-card green">
+        <span>Comp Days Earned</span>
+        <strong id="compEarnedCount">0</strong>
+      </div>
+      <div class="summary-card cyan">
+        <span>Annual Leave Days</span>
+        <strong id="annualLeaveCount">0</strong>
+      </div>
+      <div class="summary-card pink">
+        <span>Sick Leave Days</span>
+        <strong id="sickLeaveCount">0</strong>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <h2>Monthly Schedule Builder</h2>
+            <p>Click any cell to change the duty status or shift timing.</p>
+          </div>
+          <div class="legend">
+            <span><i class="legend-work"></i>Shift</span>
+            <span><i class="legend-off"></i>OFF</span>
+            <span><i class="legend-annual"></i>Annual Leave</span>
+            <span><i class="legend-sick"></i>Sick Leave</span>
+            <span><i class="legend-comp"></i>Comp Leave</span>
+            <span><i class="legend-holiday"></i>Holiday</span>
+            <span><i class="legend-earned"></i>Comp Earned</span>
+          </div>
+        </div>
+        <div id="scheduleTableWrap" class="table-wrap"></div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="card">
+          <h2>Team</h2>
+          <div id="teamList" class="team-list"></div>
+        </section>
+
+        <section class="card">
+          <h2>Approved Shift Times</h2>
+          <div class="shift-list">
+            <div>4:00 AM - 12:00 PM</div>
+            <div>5:00 AM - 1:00 PM</div>
+            <div>12:00 PM - 8:00 PM</div>
+            <div>1:00 PM - 9:00 PM</div>
+            <div>Supervisor: 8:00 AM - 4:00 PM</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Public / Government Holidays</h2>
+          <p class="hint">Add UAE holidays or company-declared holidays. If someone works on these dates, compensation is earned.</p>
+          <div class="holiday-form">
+            <input id="holidayName" placeholder="Holiday name, e.g. Eid Al Adha" />
+            <input id="holidayDate" type="date" />
+            <button id="addHolidayBtn">Add</button>
+          </div>
+          <div id="holidayList" class="holiday-list"></div>
+        </section>
+
+        <section class="card">
+          <h2>Leave & Compensation Report</h2>
+          <div id="compReport" class="report-list"></div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <dialog id="cellDialog">
+    <form method="dialog" class="dialog-card">
+      <h3 id="dialogTitle">Edit Day</h3>
+      <label>Status / Shift</label>
+      <select id="statusSelect">
+        <optgroup label="Shift Times">
+          <option value="4:00 AM - 12:00 PM">4:00 AM - 12:00 PM</option>
+          <option value="5:00 AM - 1:00 PM">5:00 AM - 1:00 PM</option>
+          <option value="12:00 PM - 8:00 PM">12:00 PM - 8:00 PM</option>
+          <option value="1:00 PM - 9:00 PM">1:00 PM - 9:00 PM</option>
+          <option value="8:00 AM - 4:00 PM">8:00 AM - 4:00 PM</option>
+        </optgroup>
+        <optgroup label="Leave / Off / Holiday">
+          <option value="OFF">OFF</option>
+          <option value="Annual Leave">Annual Leave</option>
+          <option value="Sick Leave">Sick Leave</option>
+          <option value="Compensation Leave">Compensation Leave</option>
+          <option value="Public Holiday">Public Holiday</option>
+        </optgroup>
+        <optgroup label="Compensation Earned">
+          <option value="Worked on OFF">Worked on OFF</option>
+          <option value="Worked on Public Holiday">Worked on Public Holiday</option>
+        </optgroup>
+      </select>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="applyCellBtn" value="default">Apply</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
